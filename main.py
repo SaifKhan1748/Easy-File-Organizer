@@ -1,20 +1,22 @@
 import os
 
-def arrange_files(files,ext):
-    files_with_ext = [file for file in files if file.endswith(ext)]
-    print(files_with_ext)
-    i=1
-    for file in files_with_ext:
-        os.rename(file,f"pdf - {i}.{ext}")
-        i+=1
-    if not(os.path.exists("pdf")):
-        os.mkdir("pdf")
+def organize_pdfs():
+    files = os.listdir()
+    
+    # create folder if not exists
+    if not os.path.exists("pdf_files"):
+        os.mkdir("pdf_files")
 
-    for i,file in enumerate(files_with_ext):
-        os.replace(file,f"pdf/{i+1}.{ext}")
+    count = 1
 
+    for file in files:
+        if file.endswith(".pdf"):
+            new_name = f"{count}.pdf"
+            os.rename(file, new_name)
+            os.replace(new_name, f"pdf_files/{new_name}")
+            count += 1
 
+    print("Done! Files organized.")
 
 if __name__ == "__main__":
-    files = os.listdir()
-    arrange_files(files,"pdf")
+    organize_pdfs()
